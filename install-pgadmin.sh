@@ -1,5 +1,5 @@
 # Load env variables
-source ./env.sh
+source /tmp/env.sh
 
 # Install jq
 echo "Installing jq"

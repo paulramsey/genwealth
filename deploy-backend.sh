@@ -33,6 +33,9 @@ gcloud services enable run.googleapis.com --project ${PROJECT_ID}
 gcloud services enable artifactregistry.googleapis.com --project ${PROJECT_ID}
 gcloud services enable cloudbuild.googleapis.com --project ${PROJECT_ID}
 
+# Create secrets
+./create-secrets.sh
+
 # Load env variables
 source ./env.sh
 
@@ -146,6 +149,8 @@ gcloud compute firewall-rules create pgadmin-firewall --project=${PROJECT_ID} --
 
 # Allow ssh from cloud shell
 gcloud compute firewall-rules create --network=$VPC_NAME default-allow-ssh --allow=tcp:22
+echo "Waiting for firewall rules to take effect"
+sleep 30
 
 # Run script against pgadmin instance
 gcloud compute ssh $GCE_INSTANCE --zone=$ZONE --command="rm -f /tmp/install-pgadmin.sh"
