@@ -13,7 +13,7 @@ git fetch
 #
 # Build & push the container
 #
-TAG_NAME=$(git describe --abbrev=0 --tags)
+TAG_NAME=$(git describe --abbrev=0 --tags --always)
 IMAGE=$REGION-docker.pkg.dev/$PROJECT_ID/genwealth/genwealth:$TAG_NAME
 
 docker build --rm -t $IMAGE .

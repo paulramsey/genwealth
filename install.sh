@@ -13,10 +13,13 @@ if [ -z "$PROJECT_ID" ]; then
   exit 1
 fi
 
-REGION=$(gcloud config get-value run/region)
+
 if [ -z "$REGION" ]; then
-  echo "REGION is not set. Please set the gcloud run/region."
-  exit 1
+  REGION=$(gcloud config get-value run/region)
+  if [ -z "$REGION" ]; then
+    echo "REGION is not set. Please set the gcloud run/region."
+    exit 1
+  fi
 fi
 
 #
@@ -37,4 +40,4 @@ gcloud artifacts repositories create genwealth \
 #
 # Build & push the container
 #
-source ./deploy.sh
+source ./deploy-frontend.sh
