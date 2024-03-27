@@ -30,6 +30,8 @@ EOF
 )
 echo $sql | PGPASSWORD=${ALLOYDB_PASSWORD} psql -h ${ALLOYDB_IP} -U postgres -d postgres
 
+sleep 3
+
 # Install AlloyDB AI extensions
 echo "Installing AlloyDB AI extensions"
 sql=$(cat << EOF
