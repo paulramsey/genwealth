@@ -28,7 +28,7 @@ sql=$(cat << EOF
 CREATE DATABASE ragdemos;
 EOF
 )
-echo $sql | PGPASSWORD=${ALLOYDB_PASSWORD} psql -h ${ALLOYDB_IP} -U postgres 
+echo $sql | PGPASSWORD=${ALLOYDB_PASSWORD} psql -h ${ALLOYDB_IP} -U postgres -d postgres
 
 # Install AlloyDB AI extensions
 echo "Installing AlloyDB AI extensions"
