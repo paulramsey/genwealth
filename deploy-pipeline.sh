@@ -1,16 +1,6 @@
 # Load env variables
 source ./env.sh
 
-# Enable necessary APIs 
-gcloud services enable run.googleapis.com --project ${PROJECT_ID}
-gcloud services enable artifactregistry.googleapis.com --project ${PROJECT_ID}
-gcloud services enable cloudbuild.googleapis.com --project ${PROJECT_ID}
-gcloud services enable cloudfunctions.googleapis.com --project ${PROJECT_ID}
-gcloud services enable eventarc.googleapis.com --project ${PROJECT_ID}
-gcloud services enable secretmanager.googleapis.com --project ${PROJECT_ID}
-gcloud services enable vpcaccess.googleapis.com --project ${PROJECT_ID}
-gcloud services enable documentai.googleapis.com --project ${PROJECT_ID}
-
 # Permissions for cloud functions
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
