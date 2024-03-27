@@ -2,6 +2,7 @@
 export REGION="us-central1"
 export ZONE="us-central1-a"
 export DATASTORE_ID=genwealth_1711471248274 # Datastore ID used by Vertex S&C
+export LOCAL_IPV4="67.79.68.21"
 
 # Keep all defaults below
 export PROJECT_ID=$(gcloud config get-value project 2> /dev/null)
@@ -9,8 +10,16 @@ export ALLOYDB_CLUSTER="alloydb-cluster"
 export ALLOYDB_INSTANCE="alloydb-instance"
 export ALLOYDB_IP=$(gcloud alloydb instances describe $ALLOYDB_INSTANCE --cluster=$ALLOYDB_CLUSTER --region=$REGION --view=BASIC --format=json | jq -r .ipAddress)
 export ALLOYDB_PASSWORD=$(gcloud secrets versions access latest --secret="alloydb-password-$PROJECT_ID")
+if [ $? -eq 1 ]; then
+    source ./create-secrets.sh
+    export ALLOYDB_PASSWORD=$(gcloud secrets versions access latest --secret="alloydb-password-$PROJECT_ID") 
+fi
 export PGADMIN_USER="demouser@genwealth.com"
 export PGADMIN_PASSWORD=$(gcloud secrets versions access latest --secret="pgadmin-password-$PROJECT_ID")
+if [ $? -eq 1 ]; then
+    source ./create-secrets.sh
+    export PGADMIN_PASSWORD=$(gcloud secrets versions access latest --secret="pgadmin-password-$PROJECT_ID")
+fi
 export PGPORT=5432
 export PGDATABASE=ragdemos
 export PGUSER=postgres
