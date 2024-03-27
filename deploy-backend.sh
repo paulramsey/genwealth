@@ -35,6 +35,7 @@ gcloud services enable cloudbuild.googleapis.com --project ${PROJECT_ID}
 
 # Create secrets
 ./create-secrets.sh
+sleep 5
 
 # Load env variables
 source ./env.sh

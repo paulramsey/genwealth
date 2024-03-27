@@ -1,3 +1,6 @@
+# Set project id
+PROJECT_ID=$(gcloud config get-value project 2> /dev/null)
+
 # Prompt user for AlloyDB password
 read -s -p "Enter a password for the AlloyDB cluster: " ALLOYDB_PASSWORD
 
