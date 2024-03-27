@@ -1,64 +1,6 @@
 # Load env variables
 source ./env.sh
 
-# Permissions for cloud functions
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/aiplatform.admin"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/alloydb.admin"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/alloydb.client"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/alloydb.databaseUser"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/discoveryengine.admin"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/documentai.admin"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/eventarc.eventReceiver"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/eventarc.admin"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/ml.admin"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/pubsub.admin"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/run.admin"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/serviceusage.serviceUsageConsumer"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/storage.admin"
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/secretmanager.admin"
-
-
 # pubsub access for Cloud Function GCS trigger
 SERVICE_ACCOUNT="$(gsutil kms serviceaccount -p $PROJECT_ID)"
 gcloud projects add-iam-policy-binding $PROJECT_ID \

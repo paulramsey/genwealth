@@ -1,9 +1,9 @@
-# Load env variables
-source /tmp/env.sh
-
 # Install jq
 echo "Installing jq"
 sudo apt-get -y install jq
+
+# Load env variables
+source /tmp/env.sh
 
 ## Install pgadmin
 echo "Installing pgadmin"
