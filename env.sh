@@ -8,7 +8,7 @@ export LOCAL_IPV4="67.79.68.21"
 export PROJECT_ID=$(gcloud config get-value project 2> /dev/null)
 export ALLOYDB_CLUSTER="alloydb-cluster"
 export ALLOYDB_INSTANCE="alloydb-instance"
-export ALLOYDB_IP=$(gcloud alloydb instances describe $ALLOYDB_INSTANCE --cluster=$ALLOYDB_CLUSTER --region=$REGION --view=BASIC --format=json | jq -r .ipAddress)
+export ALLOYDB_IP=$(gcloud alloydb instances describe $ALLOYDB_INSTANCE --cluster=$ALLOYDB_CLUSTER --region=$REGION --view=BASIC --format=json | jq -r .ipAddress) || echo "AlloyDB Instance doesn't exist yet"
 export ALLOYDB_PASSWORD=$(gcloud secrets versions access latest --secret="alloydb-password-$PROJECT_ID")
 export PGADMIN_USER="demouser@genwealth.com"
 export PGADMIN_PASSWORD=$(gcloud secrets versions access latest --secret="pgadmin-password-$PROJECT_ID")

@@ -2,12 +2,14 @@
 source ./env.sh
 
 # pubsub access for Cloud Function GCS trigger
+echo "Adding function permissions"
 SERVICE_ACCOUNT="$(gsutil kms serviceaccount -p $PROJECT_ID)"
 gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member="serviceAccount:${SERVICE_ACCOUNT}" \
     --role='roles/pubsub.publisher'
 
 # Create GCS buckets
+echo "Creating GCS buckets"
 gcloud storage buckets create gs://${PROJECT_ID}-docs --location=${REGION} \
     --project=${PROJECT_ID} --uniform-bucket-level-access
 
@@ -18,9 +20,11 @@ gcloud storage buckets create gs://${PROJECT_ID}-doc-ai --location=${REGION} \
     --project=${PROJECT_ID} --uniform-bucket-level-access
 
 # Create pubsub topic
+echo "Creating pubsub topic"
 gcloud pubsub topics create ${PROJECT_ID}-doc-ready --project=${PROJECT_ID}
 
 # Create VPC connector for cloud function
+echo "Creating VPC connector for cloud functions"
 gcloud compute networks vpc-access connectors create vpc-connector --region=${REGION} \
     --network=demo-vpc \
     --range=10.8.0.0/28 \
@@ -28,6 +32,7 @@ gcloud compute networks vpc-access connectors create vpc-connector --region=${RE
     --machine-type=e2-micro 
 
 # Create Document AI processor
+echo "Creating Document AI processor"
 echo '{"type": "OCR_PROCESSOR","displayName": "document-text-extraction"}' > request.json
 curl -X POST \
     -H "Authorization: Bearer $(gcloud auth print-access-token)" \
@@ -43,7 +48,12 @@ DOC_AI_PROCESSOR_NAME=$(curl -X GET \
 DOC_AI_PROCESSOR_ID=${DOC_AI_PROCESSOR_NAME##*/}
 DOC_AI_PROCESSOR_ID=${DOC_AI_PROCESSOR_ID: 0:-1}
 
+echo "Waiting for permissions to take effect"
+sleep 60
+
+
 # Create functions
+echo "Creating Cloud Function: process-pdf"
 gcloud functions deploy process-pdf \
 --gen2 \
 --region=${REGION} \
@@ -65,6 +75,9 @@ gcloud functions deploy process-pdf \
 --cpu=2000m \
 --trigger-bucket="${PROJECT_ID}-docs"
 
+sleep 10
+
+echo "Creating Cloud Function: analyze-prospectus"
 gcloud functions deploy analyze-prospectus \
 --gen2 \
 --region=${REGION} \

@@ -237,3 +237,8 @@ EXECUTE PROCEDURE update_analysis_embedding();
 EOF
 )
 echo $sql | PGPASSWORD=${ALLOYDB_PASSWORD} psql -h ${ALLOYDB_IP} -U postgres -d ragdemos
+
+echo "Access the pgadmin interface using the URL below:"
+echo "http://$(curl -s ifconfig.me)/pgadmin4"
+echo "Connect to AlloyDB using the following IP:"
+echo $ALLOYDB_IP
