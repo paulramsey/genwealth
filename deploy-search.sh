@@ -7,7 +7,7 @@ gcloud services enable discoveryengine.googleapis.com --project ${PROJECT_ID}
 # Call the first API with yes to enable to second necessary API (can't do this directly today)
 
 # Create S&C Datastore (pdf + jsonl metadata)
-curl -X POST \
+yes | curl -X POST \
 -H "Authorization: Bearer $(gcloud auth print-access-token)" \
 -H "Content-Type: application/json" \
 -H "X-Goog-User-Project: ${PROJECT_ID}" \
