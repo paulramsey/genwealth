@@ -4,9 +4,6 @@
 ### NOTE: you need the latest version of gcloud (i.e. 468 or later) to deploy this
 ###
 
-# Load env variables
-source ./env.sh
-
 # Deploy each layer of the stack
 echo "Deploying the back end."
 source ./deploy-backend.sh

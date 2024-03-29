@@ -30,6 +30,6 @@ export DOC_AI_BUCKET=${PROJECT_ID}-doc-ai
 DATASTORE_ID=$(curl -X GET \
 -H "Authorization: Bearer $(gcloud auth print-access-token)" \
 -H "X-Goog-User-Project: ${PROJECT_ID}" \
-https://discoveryengine.googleapis.com/v1alpha/projects/${PROJECT_ID}/locations/global/collections/default_collection/dataStores | jq -r '.dataStores | .[] | select(.displayName=="search-prospectus").name' || echo "None")
+"https://discoveryengine.googleapis.com/v1alpha/projects/${PROJECT_ID}/locations/global/collections/default_collection/dataStores" | jq -r '.dataStores | .[] | select(.displayName=="search-prospectus").name' || echo "None")
 export DATASTORE_ID=${DATASTORE_ID##*/}
 export DATA_STORE_ID=${DATASTORE_ID}

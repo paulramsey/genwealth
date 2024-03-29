@@ -2,6 +2,7 @@
 source ./env.sh
 
 # Enable APIs
+echo "Enabling discovery engine API"
 gcloud services enable discoveryengine.googleapis.com --project ${PROJECT_ID}
 
 # Call the first API with yes to enable to second necessary API (can't do this directly today)
@@ -30,8 +31,11 @@ yes | curl -X POST \
 DATA_STORE_ID=$(curl -X GET \
 -H "Authorization: Bearer $(gcloud auth print-access-token)" \
 -H "X-Goog-User-Project: ${PROJECT_ID}" \
-https://discoveryengine.googleapis.com/v1alpha/projects/${PROJECT_ID}/locations/global/collections/default_collection/dataStores | jq -r '.dataStores | .[] | select(.displayName=="search-prospectus").name')
+"https://discoveryengine.googleapis.com/v1alpha/projects/${PROJECT_ID}/locations/global/collections/default_collection/dataStores" | jq -r '.dataStores | .[] | select(.displayName=="search-prospectus").name')
 DATA_STORE_ID=${DATA_STORE_ID##*/}
+
+# Upload samples to gcs
+gsutil cp sample-prospectus/*.pdf gs://${DOCS_BUCKET}
 
 # Import data from gcs
 # Ref: https://cloud.google.com/generative-ai-app-builder/docs/create-data-store-es#cloud-storage

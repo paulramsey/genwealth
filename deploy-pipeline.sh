@@ -13,9 +13,6 @@ echo "Creating GCS buckets"
 gcloud storage buckets create gs://${PROJECT_ID}-docs --location=${REGION} \
     --project=${PROJECT_ID} --uniform-bucket-level-access
 
-gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-docs \
-    --member=allUsers --role=roles/storage.objectViewer
-
 gcloud storage buckets create gs://${PROJECT_ID}-docs-metadata --location=${REGION} \
     --project=${PROJECT_ID} --uniform-bucket-level-access
 
@@ -52,34 +49,10 @@ DOC_AI_PROCESSOR_ID=${DOC_AI_PROCESSOR_NAME##*/}
 DOC_AI_PROCESSOR_ID=${DOC_AI_PROCESSOR_ID: 0:-1}
 
 echo "Waiting for permissions to take effect"
-sleep 60
+sleep 90
 
 
 # Create functions
-echo "Creating Cloud Function: process-pdf"
-gcloud functions deploy process-pdf \
---gen2 \
---region=${REGION} \
---runtime=python311 \
---source="./function-scripts/process-pdf" \
---entry-point="process_pdf" \
---set-env-vars="REGION=${REGION},ZONE=${ZONE},PROJECT_ID=${PROJECT_ID},PROCESSOR_ID=${DOC_AI_PROCESSOR_ID},IP_TYPE=private" \
---set-secrets "ALLOYDB_PASSWORD=alloydb-password-${PROJECT_ID}:1" \
---egress-settings=private-ranges-only \
---vpc-connector=vpc-connector \
---timeout=540s \
---run-service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
---service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
---trigger-service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
---concurrency=1 \
---max-instances=100 \
---ingress-settings=all \
---memory=2gi \
---cpu=2000m \
---trigger-bucket="${PROJECT_ID}-docs"
-
-sleep 10
-
 echo "Creating Cloud Function: analyze-prospectus"
 gcloud functions deploy analyze-prospectus \
 --gen2 \
@@ -121,4 +94,28 @@ gcloud functions deploy write-metadata \
 --ingress-settings=all \
 --memory=256Mi \
 --cpu=.5 \
+--trigger-bucket="${PROJECT_ID}-docs"
+
+sleep 10
+
+echo "Creating Cloud Function: process-pdf"
+gcloud functions deploy process-pdf \
+--gen2 \
+--region=${REGION} \
+--runtime=python311 \
+--source="./function-scripts/process-pdf" \
+--entry-point="process_pdf" \
+--set-env-vars="REGION=${REGION},ZONE=${ZONE},PROJECT_ID=${PROJECT_ID},PROCESSOR_ID=${DOC_AI_PROCESSOR_ID},IP_TYPE=private" \
+--set-secrets "ALLOYDB_PASSWORD=alloydb-password-${PROJECT_ID}:1" \
+--egress-settings=private-ranges-only \
+--vpc-connector=vpc-connector \
+--timeout=540s \
+--run-service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+--service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+--trigger-service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+--concurrency=1 \
+--max-instances=100 \
+--ingress-settings=all \
+--memory=2gi \
+--cpu=2000m \
 --trigger-bucket="${PROJECT_ID}-docs"

@@ -19,6 +19,10 @@ done
 echo "Waiting 60 seconds for org policies to take effect"
 sleep 60
 
+# Make PDFs publically viewable
+gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-docs \
+    --member=allUsers --role=roles/storage.objectViewer
+
 #
 # Create the Artifact Registry repository:
 #
