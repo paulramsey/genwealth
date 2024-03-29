@@ -3,7 +3,7 @@ This demo showcases how you can combine the data and documents you already have 
 
 You will implement an end-to-end “Knowledge Worker Assist” use case for a fictional Financial Services company called GenWealth. GenWealth is an investment advisory firm that combines personalized service with cutting-edge technology to deliver tailored investment strategies to their clients that aim to generate market-beating results.
 
-You we add 3 new Gen AI features to GenWealth’s existing Investment Advisory software:
+You will add 3 new Gen AI features to GenWealth’s existing Investment Advisory software:
 
 1. First, you will improve the investment search experience for GenWealth’s Financial Advisors using semantic search powered by AlloyDB AI.
 2. Second, you will build a Customer Segmentation feature for GenWealth’s Marketing Analysts to identify prospects for new products and services.
@@ -116,5 +116,18 @@ If you prefer to run the deployment one step at a time (perhaps for debugging pu
 ## Purpose and Extensibility
 
 The purpose of this repo is to help you provision an isolated demo environment that highlights the Generative AI capabilities of AlloyDB AI and Vertex AI. While the ideas in this repo can be extended for many real-world use cases, the demo code itself is overly permissive and has not been hardened for security or reliability. The sample code in this repo is provided on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, and it should NOT be used for production use cases without doing your own testing and security hardening. 
+
+## Clean Up
+
+Be sure to delete the resources you no longer need when you’re done with the demo. If you created a new project for the lab as recommended, you can delete the whole project using the command below in your Cloud Shell session (NOT the pgadmin VM). 
+
+**DANGER: Be sure to set PROJECT_ID to the correct project, and run this command ONLY if you are SURE there is nothing in the project that you might still need. This command will permanently destroy everything in the project.**
+
+```bash
+# Set your project id
+PROJECT_ID='YOUR PROJECT ID HERE'
+gcloud projects delete ${PROJECT_ID}
+```
+
 
 
