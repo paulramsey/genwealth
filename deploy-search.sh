@@ -64,4 +64,3 @@ curl -X POST \
      "searchAddOns": ["SEARCH_ADD_ON_LLM"]
    }
 }'
-
