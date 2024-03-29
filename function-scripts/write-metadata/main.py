@@ -1,3 +1,4 @@
+import functions_framework
 import uuid
 from google.cloud import storage
 from pathlib import Path
@@ -28,7 +29,7 @@ def write_metadata(cloud_event):
     project_id = os.environ['PROJECT_ID']
     metadata_bucket = "{}-docs-metadata".format(project_id)
     id = str(uuid.uuid4())
-    ticker = Path(source_file).stem
+    ticker = Path(name).stem
     target_file_name = "{}.jsonl".format(ticker)
 
     # Build metadata jsonl
@@ -42,6 +43,8 @@ def write_metadata(cloud_event):
     with blob.open("w") as f:
         f.write(metadata)
 
+    print("Metadata for {} written to {}".format(ticker, metadata_bucket))
+    print("Metadata object: {}".format(metadata))
     storage_client.close()
 
 
