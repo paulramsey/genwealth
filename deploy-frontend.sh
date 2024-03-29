@@ -12,6 +12,7 @@ git fetch
 #
 # Build & push the container
 #
+echo "Building and pushing the container"
 TAG_NAME=$(git describe --abbrev=0 --tags --always)
 IMAGE=$REGION-docker.pkg.dev/$PROJECT_ID/genwealth/genwealth:$TAG_NAME
 
@@ -21,6 +22,7 @@ docker push $IMAGE
 #
 # Step 3: Deploy to Cloud Run
 #
+echo "Deploying to Cloud Run"
 gcloud beta run deploy genwealth \
     --image=$IMAGE \
     --execution-environment=gen2 \

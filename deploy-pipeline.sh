@@ -98,3 +98,24 @@ gcloud functions deploy analyze-prospectus \
 --memory=2gi \
 --cpu=2000m \
 --trigger-topic="${PROJECT_ID}-doc-ready"
+
+sleep 10
+
+echo "Creating Cloud Function: write-metadata"
+gcloud functions deploy write-metadata \
+--gen2 \
+--region=${REGION} \
+--runtime=python311 \
+--source="./function-scripts/write-metadata" \
+--entry-point="write_metadata" \
+--set-env-vars="PROJECT_ID=${PROJECT_ID}" \
+--timeout=60s \
+--run-service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+--service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+--trigger-service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+--concurrency=1 \
+--max-instances=100 \
+--ingress-settings=all \
+--memory=256Mi \
+--cpu=.5 \
+--trigger-bucket="${PROJECT_ID}-docs"
