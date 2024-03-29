@@ -36,7 +36,7 @@ def import_documents_sample(
         request = discoveryengine.ImportDocumentsRequest(
             parent=parent,
             gcs_source=discoveryengine.GcsSource(
-                input_uris=[gcs_uri], data_schema="custom"
+                input_uris=[gcs_uri], data_schema="document"
             ),
             # Options: `FULL`, `INCREMENTAL`
             reconciliation_mode=discoveryengine.ImportDocumentsRequest.ReconciliationMode.INCREMENTAL,
@@ -95,7 +95,7 @@ def update_search_index(cloud_event):
     location = 'global'
     data_store_id = os.environ['DATASTORE_ID']
     docs_metadata_bucket = os.environ['DOCS_METADATA_BUCKET']
-    gcs_uri = "gs://'{}'/*.jsonl".format(docs_metadata_bucket)
+    gcs_uri = "gs://{}/*.jsonl".format(docs_metadata_bucket)
 
     import_documents_sample(
         project_id = project_id,

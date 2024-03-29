@@ -72,7 +72,7 @@ gcloud functions deploy update-search-index \
 --runtime=python311 \
 --source="./function-scripts/update-search-index" \
 --entry-point="update_search_index" \
---set-env-vars="PROJECT_ID=${PROJECT_ID}" \
+--set-env-vars="PROJECT_ID=${PROJECT_ID},DATASTORE_ID=${DATASTORE_ID},DOCS_METADATA_BUCKET=${DOCS_METADATA_BUCKET}" \
 --timeout=540s \
 --run-service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
 --service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
