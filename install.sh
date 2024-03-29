@@ -13,6 +13,8 @@ echo "Deploying Vertex AI Search and Conversation."
 source ./deploy-search.sh
 echo "Deploying front end dependencies."
 source ./deploy-registry.sh
+read -p "Enter the Vertex AI configId: " SEARCH_CONFIG_ID
+echo "export SEARCH_CONFIG_ID=${SEARCH_CONFIG_ID}" >> env.sh
 echo "Deploying the front end."
 source ./deploy-frontend.sh
 echo "Install complete."

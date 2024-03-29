@@ -27,6 +27,9 @@ yes | curl -X POST \
   }
 }'
 
+echo "Waiting 60 seconds for environment to settle."
+sleep 60
+
 # Get the data store id
 DATA_STORE_ID=$(curl -X GET \
 -H "Authorization: Bearer $(gcloud auth print-access-token)" \
@@ -36,6 +39,8 @@ DATA_STORE_ID=${DATA_STORE_ID##*/}
 
 # Upload samples to gcs
 gsutil cp sample-prospectus/*.pdf gs://${DOCS_BUCKET}
+
+sleep 10
 
 # Import data from gcs
 # Ref: https://cloud.google.com/generative-ai-app-builder/docs/create-data-store-es#cloud-storage

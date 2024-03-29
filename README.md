@@ -91,6 +91,18 @@ app.use(express.static(staticPath));
 
 1. When prompted, enter a password you will remember for the AlloyDB postgres user and the pgAdmin demo user. **Remember these passwords - you will need them later**.
 
+1. When prompted, enter the `configId` for the Vertex AI Search and Conversation widget. You can retrieve the `configId` by following these steps:
+
+    - Navigate to [Vertex AI Search and Conversation](https://console.cloud.google.com/gen-app-builder/engines) in the console. Click to activate the API if necessary. 
+    - Click into the `search-prospectus` app.
+    - Select `Integration` from the left-hand menu.
+    - Scroll down until you see the `configId` for the gen-search-widget.
+    - Copy just the UUID without the quotes (i.e. `4205ae6a-434e-695e-aee4-58f500bd9000`).
+
+1. When the build is complete, it will display a URL where you can access the UI. In the same interface where you copied the `configId`, add the domain (without the leading `https://` or trailing slash) as an allowed domain for the widget. Be sure to click `Save`. Example: `genwealth-420u2zdq69-uc.a.run.app`
+
+1. Navigate to the URL supplied in the build output to access the GenWealth Advisory Services UI.
+
 ## Incremental builds
 
 If you prefer to run the deployment one step at a time (perhaps for debugging purposes), run the deployment scripts in the following order:

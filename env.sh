@@ -2,7 +2,6 @@
 export REGION="us-central1"
 export ZONE="us-central1-a"
 export LOCAL_IPV4="X.X.X.X"
-export SEARCH_CONFIG_ID="CONFIG_ID_PLACEHOLDER"
 
 # Keep all defaults below
 export PROJECT_ID=$(gcloud config get-value project 2> /dev/null)
