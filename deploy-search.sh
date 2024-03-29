@@ -64,3 +64,22 @@ curl -X POST \
      "searchAddOns": ["SEARCH_ADD_ON_LLM"]
    }
 }'
+
+echo "Deploying function: update-search-index"
+gcloud functions deploy update-search-index \
+--gen2 \
+--region=${REGION} \
+--runtime=python311 \
+--source="./function-scripts/update-search-index" \
+--entry-point="update_search_index" \
+--set-env-vars="PROJECT_ID=${PROJECT_ID}" \
+--timeout=540s \
+--run-service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+--service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+--trigger-service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+--concurrency=1 \
+--max-instances=100 \
+--ingress-settings=all \
+--memory=256Mi \
+--cpu=.5 \
+--trigger-bucket="${PROJECT_ID}-docs-metadata"

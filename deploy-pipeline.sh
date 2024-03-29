@@ -13,6 +13,9 @@ echo "Creating GCS buckets"
 gcloud storage buckets create gs://${PROJECT_ID}-docs --location=${REGION} \
     --project=${PROJECT_ID} --uniform-bucket-level-access
 
+gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-docs \
+    --member=allUsers --role=roles/storage.objectViewer
+
 gcloud storage buckets create gs://${PROJECT_ID}-docs-metadata --location=${REGION} \
     --project=${PROJECT_ID} --uniform-bucket-level-access
 
