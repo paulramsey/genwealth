@@ -1,7 +1,6 @@
 # Update env variables here
 export REGION="us-central1"
 export ZONE="us-central1-a"
-export DATASTORE_ID=genwealth_1711471248274 # Datastore ID used by Vertex S&C
 export LOCAL_IPV4="X.X.X.X"
 
 # Keep all defaults below
@@ -31,4 +30,5 @@ DATASTORE_ID=$(curl -X GET \
 -H "Authorization: Bearer $(gcloud auth print-access-token)" \
 -H "X-Goog-User-Project: ${PROJECT_ID}" \
 https://discoveryengine.googleapis.com/v1alpha/projects/${PROJECT_ID}/locations/global/collections/default_collection/dataStores | jq -r '.dataStores | .[] | select(.displayName=="search-prospectus").name' || echo "None")
-export DATASTORE_ID=${DATA_STORE_ID##*/}
+export DATASTORE_ID=${DATASTORE_ID##*/}
+export DATA_STORE_ID=${DATASTORE_ID}
