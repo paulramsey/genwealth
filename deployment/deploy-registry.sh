@@ -1,6 +1,10 @@
 # Load env variables
 source ./env.sh
 
+# Update the Vertex AI configId
+read -p "Enter the Vertex AI configId: " SEARCH_CONFIG_ID
+echo "export SEARCH_CONFIG_ID=${SEARCH_CONFIG_ID}" >> env.sh
+
 # Update org policies
 echo "Updating org policies"
 declare -a policies=("constraints/run.allowedIngress"
@@ -31,3 +35,4 @@ gcloud artifacts repositories create genwealth \
 --repository-format=docker \
 --location=$REGION \
 --project=$PROJECT_ID 
+

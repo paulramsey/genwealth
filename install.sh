@@ -6,15 +6,13 @@
 
 # Deploy each layer of the stack
 echo "Deploying the back end."
-source ./deploy-backend.sh
+source ./deployment/deploy-backend.sh
 echo "Deploying the document ingestion pipeline."
-source ./deploy-pipeline.sh
+source ./deployment/deploy-pipeline.sh
 echo "Deploying Vertex AI Search and Conversation."
-source ./deploy-search.sh
+source ./deployment/deploy-search.sh
 echo "Deploying front end dependencies."
-source ./deploy-registry.sh
-read -p "Enter the Vertex AI configId: " SEARCH_CONFIG_ID
-echo "export SEARCH_CONFIG_ID=${SEARCH_CONFIG_ID}" >> env.sh
+source ./deployment/deploy-registry.sh
 echo "Deploying the front end."
-source ./deploy-frontend.sh
+source ./deployment/deploy-frontend.sh
 echo "Install complete."
