@@ -61,7 +61,9 @@ The GenWealth demo application was built using:
 
 1. When prompted, enter a password you will remember for the AlloyDB postgres user and the pgAdmin demo user. **Remember these passwords - you will need them later**.
 
-1. When prompted (after about 15 minutes), enter the `configId` for the Vertex AI Search and Conversation widget. You can retrieve the `configId` by following these steps:
+1. Grab some coffee or tea. The script will provision all the necessary back-end resources, which usually takes about 30-35 minutes.
+
+1. When prompted (after about 30 minutes), enter the `configId` for the Vertex AI Search and Conversation widget. Retrieve the `configId` by following these steps:
 
     - Navigate to Vertex AI Search and Conversation in the console. 
     - **IMPORTANT:** Click to accept terms and activate the API. 
@@ -85,17 +87,6 @@ The GenWealth demo application was built using:
     --member=allUsers --role=roles/storage.objectViewer
     ```
 1. If you get an error saying, `Configuration is not authorized on "genwealth-xxxxxxxxx-uc.a.run.app".` when trying to use the search widget in the Research interface, ensure the domain is allowed to access the widget in the Vertex AI Search and Conversation Integrations page, and ensure you have accepted the usage terms and activated the API (see steps 10 and 11). 
-
-
-## Incremental builds
-
-If you prefer to run the deployment one step at a time (perhaps for debugging purposes), run the deployment scripts in the following order:
-
-1. `deploy-backend.sh`
-1. `deploy-pipeline.sh`
-1. `deploy-search.sh`
-1. `deploy-registry.sh`
-1. `deploy-frontend.sh`
 
 ## Architecture
 
