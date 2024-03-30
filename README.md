@@ -12,7 +12,9 @@ You will add 3 new Gen AI features to GenWealth’s existing Investment Advisory
 This demo highlights AlloyDB AI’s integration with [Vertex AI LLMs](https://cloud.google.com/model-garden?hl=en) for both embeddings and text completion models. You will learn how to query AlloyDB with natural language using embeddings and vector similarity search, and you will build the backend for a RAG-powered Gen AI chatbot that is grounded in your application data.
 
 
-## Requirements
+## Tech Stack
+The GenWealth demo application was built using:
+
 - [AlloyDB for PostgreSQL](https://cloud.google.com/alloydb?hl=en) 14+
 - [Vertex AI](https://cloud.google.com/vertex-ai?hl=en) LLMs ([gemini-1.0-pro](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/gemini), [textembeddings-gecko@003](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings) and [text-bison@002](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text))
 - Vertex AI [Search and Conversation](https://cloud.google.com/vertex-ai-search-and-conversation?hl=en)
@@ -25,6 +27,75 @@ This demo highlights AlloyDB AI’s integration with [Vertex AI LLMs](https://cl
 - [LangChain](https://www.langchain.com/) 0.1.12+
 - [Node](https://nodejs.org/en) 20+
 - [Angular](https://angular.io/) 17+
+
+## Deploying the GenWealth Demo Application
+
+1. Login to the [GCP Console](https://console.cloud.google.com/).
+
+1. [Create a new project](https://developers.google.com/maps/documentation/places/web-service/cloud-setup) to host the demo and isolate it from other resources in your account.
+
+1. [Switch](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) to your new project.
+
+1. [Activate Cloud Shell](https://cloud.google.com/shell/docs/using-cloud-shell) and confirm your project by running the following commands. Click **Authorize** if prompted.
+
+    ```bash
+    gcloud auth list
+    gcloud config list project
+    ```
+
+1. Clone this repository and navigate to the project root:
+    ```bash
+    git clone https://github.com/paulramsey/genwealth.git
+    cd genwealth
+    ```
+
+1. In a separate tab, navigate to https://ipv4.icanhazip.com/ and write down your device's public IP. You will need this in the next step. 
+
+1. **IMPORTANT:** Use `vim` or `nano` to update the following three values in the `./env.sh` file to match your environment. Leave the rest as default.
+    ```bash
+    export REGION="us-central1"
+    export ZONE="us-central1-a"
+    export LOCAL_IPV4="X.X.X.X" # Your device's public IP from the previous step
+    ```
+1. Run the `./install.sh` script.
+
+1. When prompted, enter a password you will remember for the AlloyDB postgres user and the pgAdmin demo user. **Remember these passwords - you will need them later**.
+
+1. When prompted (after about 15 minutes), enter the `configId` for the Vertex AI Search and Conversation widget. You can retrieve the `configId` by following these steps:
+
+    - Navigate to Vertex AI Search and Conversation in the console. 
+    - **IMPORTANT:** Click to accept terms and activate the API. 
+    - Click into the `search-prospectus` app.
+    - Select `Integration` from the left-hand menu.
+    - Scroll down until you see the `configId` for the gen-search-widget.
+    - Copy just the UUID without the quotes (i.e. `4205ae6a-434e-695e-aee4-58f500bd9000`).
+    - Keep this window open. You will need it in the next step.
+
+1. When the build is complete, it will display a URL where you can access the UI. In the same interface where you copied the `configId`, add the domain (without the leading `https://` or trailing slash) as an allowed domain for the widget. Be sure to click `Save`. Example: `genwealth-420u2zdq69-uc.a.run.app`
+
+1. Navigate to the URL supplied in the build output to access the GenWealth Advisory Services UI.
+
+### Troubleshooting
+
+1. If you get an error during install saying, `HTTPError 412: One or more users named in the policy do not belong to a permitted customer.`, or if you are unable to view the PDFs by clicking the PDF icon in the Research interface, re-run the following command:
+
+    ```bash
+    source ./env.sh
+    gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-docs \
+    --member=allUsers --role=roles/storage.objectViewer
+    ```
+1. If you get an error saying, `Configuration is not authorized on "genwealth-xxxxxxxxx-uc.a.run.app".` when trying to use the search widget in the Research interface, ensure the domain is allowed to access the widget in the Vertex AI Search and Conversation Integrations page, and ensure you have accepted the usage terms and activated the API (see steps 10 and 11). 
+
+
+## Incremental builds
+
+If you prefer to run the deployment one step at a time (perhaps for debugging purposes), run the deployment scripts in the following order:
+
+1. `deploy-backend.sh`
+1. `deploy-pipeline.sh`
+1. `deploy-search.sh`
+1. `deploy-registry.sh`
+1. `deploy-frontend.sh`
 
 ## Architecture
 
@@ -137,61 +208,6 @@ Secrets are handled by [Secret Manager](https://cloud.google.com/security/produc
 ```bash
 gcloud secrets versions access latest --secret="my-secret"
 ```
-
-## Deploying the GenWealth Demo Application
-
-1. Login to the [GCP Console](https://console.cloud.google.com/).
-
-1. [Create a new project](https://developers.google.com/maps/documentation/places/web-service/cloud-setup) to host the demo and isolate it from other resources in your account.
-
-1. [Switch](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) to your new project.
-
-1. [Activate Cloud Shell](https://cloud.google.com/shell/docs/using-cloud-shell) and confirm your project by running the following commands. Click **Authorize** if prompted.
-
-    ```bash
-    gcloud auth list
-    gcloud config list project
-    ```
-
-1. Clone this repository and navigate to the project root:
-    ```bash
-    git clone https://github.com/paulramsey/genwealth.git
-    cd genwealth
-    ```
-
-1. In a separate tab, navigate to https://ipv4.icanhazip.com/ and write down your device's public IP. You will need this in the next step. 
-
-1. **IMPORTANT:** Use `vim` or `nano` to update the following three values in the `./env.sh` file to match your environment. Leave the rest as default.
-    ```bash
-    export REGION="us-central1"
-    export ZONE="us-central1-a"
-    export LOCAL_IPV4="X.X.X.X" # Your device's public IP from the previous step
-    ```
-1. Run the `./install.sh` script.
-
-1. When prompted, enter a password you will remember for the AlloyDB postgres user and the pgAdmin demo user. **Remember these passwords - you will need them later**.
-
-1. When prompted, enter the `configId` for the Vertex AI Search and Conversation widget. You can retrieve the `configId` by following these steps:
-
-    - Navigate to [Vertex AI Search and Conversation](https://console.cloud.google.com/gen-app-builder/engines) in the console. Click to activate the API if necessary. 
-    - Click into the `search-prospectus` app.
-    - Select `Integration` from the left-hand menu.
-    - Scroll down until you see the `configId` for the gen-search-widget.
-    - Copy just the UUID without the quotes (i.e. `4205ae6a-434e-695e-aee4-58f500bd9000`).
-
-1. When the build is complete, it will display a URL where you can access the UI. In the same interface where you copied the `configId`, add the domain (without the leading `https://` or trailing slash) as an allowed domain for the widget. Be sure to click `Save`. Example: `genwealth-420u2zdq69-uc.a.run.app`
-
-1. Navigate to the URL supplied in the build output to access the GenWealth Advisory Services UI.
-
-## Incremental builds
-
-If you prefer to run the deployment one step at a time (perhaps for debugging purposes), run the deployment scripts in the following order:
-
-1. `deploy-backend.sh`
-1. `deploy-pipeline.sh`
-1. `deploy-search.sh`
-1. `deploy-registry.sh`
-1. `deploy-frontend.sh`
 
 ## Purpose and Extensibility
 

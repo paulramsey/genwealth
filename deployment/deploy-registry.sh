@@ -20,12 +20,8 @@ EOF
 gcloud resource-manager org-policies set-policy new_policy.yaml --project=$PROJECT_ID
 done
 
-echo "Waiting 60 seconds for org policies to take effect"
-sleep 60
-
-# Make PDFs publically viewable
-gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-docs \
-    --member=allUsers --role=roles/storage.objectViewer
+echo "Waiting 90 seconds for org policies to take effect"
+sleep 90
 
 #
 # Create the Artifact Registry repository:
@@ -36,3 +32,6 @@ gcloud artifacts repositories create genwealth \
 --location=$REGION \
 --project=$PROJECT_ID 
 
+# Make PDFs publically viewable
+gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-docs \
+    --member=allUsers --role=roles/storage.objectViewer
