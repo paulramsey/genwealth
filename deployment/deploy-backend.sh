@@ -230,7 +230,7 @@ sleep 30
 # Run script against pgadmin instance
 gcloud compute ssh $GCE_INSTANCE --zone=$ZONE --command="rm -f /tmp/install-pgadmin.sh"
 gcloud compute ssh $GCE_INSTANCE --zone=$ZONE --command="rm -f /tmp/env.sh"
-gcloud compute copy-files ./install-pgadmin.sh $GCE_INSTANCE:/tmp/install-pgadmin.sh --zone=$ZONE
+gcloud compute copy-files ./deployment/install-pgadmin.sh $GCE_INSTANCE:/tmp/install-pgadmin.sh --zone=$ZONE
 gcloud compute copy-files ./env.sh $GCE_INSTANCE:/tmp/env.sh --zone=$ZONE
 gcloud compute ssh $GCE_INSTANCE --zone=$ZONE --command="chmod +x /tmp/install-pgadmin.sh"
 gcloud compute ssh $GCE_INSTANCE --zone=$ZONE --command="chmod +x /tmp/env.sh"
