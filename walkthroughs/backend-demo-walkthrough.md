@@ -544,4 +544,9 @@ Be sure to delete the resources you no longer need when you’re done with the l
 PROJECT_ID='YOUR PROJECT ID HERE'
 gcloud projects delete ${PROJECT_ID}
 ```
-[END OF DEMO]
+
+## Summary
+
+In this demo, you built new Gen AI features into your existing application using just SQL, including semantic search, customer segmentation, and a Gen AI chatbot. You also learned how to query your relational database using natural semantic query concepts. 
+
+If you'd like to see how this back end implementation could be leveraged on the front end, take a look at the [Front End Demo Walkthrough guide](./frontend-demo-walkthrough.md) to see GenWealth's Advisory Services UI in action. 

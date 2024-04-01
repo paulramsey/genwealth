@@ -75,7 +75,10 @@ The GenWealth demo application was built using:
 
 1. When the build is complete, it will display a URL where you can access the UI. In the same interface where you copied the `configId`, add the domain (without the leading `https://` or trailing slash) as an allowed domain for the widget. Be sure to click `Save`. Example: `genwealth-420u2zdq69-uc.a.run.app`
 
-1. Navigate to the URL supplied in the build output to access the GenWealth Advisory Services UI.
+1. You can now choose to explore the demo environment from the front end or the back end (or both). 
+
+    - [Front End Demo Walkthrough](./walkthroughs/frontend-demo-walkthrough.md)
+    - [Back End Demo Walkthrough](./walkthroughs/backend-demo-walkthrough.md)
 
 ### Troubleshooting
 
