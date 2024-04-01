@@ -7,7 +7,7 @@ export LOCAL_IPV4="X.X.X.X"
 export PROJECT_ID=$(gcloud config get-value project 2> /dev/null)
 export ALLOYDB_CLUSTER="alloydb-cluster"
 export ALLOYDB_INSTANCE="alloydb-instance"
-export ALLOYDB_IP=$(gcloud alloydb instances describe ALLOYDB_INSTANCE --cluster=$ALLOYDB_CLUSTER --region=$REGION --view=BASIC --format=json 2>/dev/null | jq -r .ipAddress)
+export ALLOYDB_IP=$(gcloud alloydb instances describe $ALLOYDB_INSTANCE --cluster=$ALLOYDB_CLUSTER --region=$REGION --view=BASIC --format=json 2>/dev/null | jq -r .ipAddress)
 export ALLOYDB_PASSWORD=$(gcloud secrets versions access latest --secret="alloydb-password-$PROJECT_ID")
 export PGADMIN_USER="demouser@genwealth.com"
 export PGADMIN_PASSWORD=$(gcloud secrets versions access latest --secret="pgadmin-password-$PROJECT_ID")
@@ -29,6 +29,6 @@ export DOC_AI_BUCKET=${PROJECT_ID}-doc-ai
 DATASTORE_ID=$(curl -s -X GET \
 -H "Authorization: Bearer $(gcloud auth print-access-token)" \
 -H "X-Goog-User-Project: ${PROJECT_ID}" \
-"https://discoveryengine.googleapis.com/v1alpha/projects/${PROJECT_ID}/locations/global/collections/default_collection/dataStores" | jq -r '.dataStores | .[] | select(.displayName=="search-prospectus").name' || echo "None")
+"https://discoveryengine.googleapis.com/v1alpha/projects/${PROJECT_ID}/locations/global/collections/default_collection/dataStores" | jq -r '.dataStores | .[] | select(.displayName=="search-prospectus").name' 2>/dev/null)
 export DATASTORE_ID=${DATASTORE_ID##*/}
 export DATA_STORE_ID=${DATASTORE_ID}
